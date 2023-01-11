@@ -1,7 +1,7 @@
 from django.db import models
 from applications.author.models import Author
-from .managers import BookManager, CategoryManager
 
+from .managers import BookManager, CategoryManager
 
 class Category(models.Model):
     name = models.CharField(max_length = 30)
@@ -22,4 +22,4 @@ class Book(models.Model):
     objects = BookManager()
     
     def __str__(self):
-        return self.title
+        return str(self.id) + " - " + self.title

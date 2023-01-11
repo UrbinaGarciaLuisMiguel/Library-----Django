@@ -24,6 +24,12 @@ class BookManager(models.Manager):
         book.author.add(author_id)
         return book
 
+    def number_loans_by_book(self):
+        result = self.aggregate(
+            number_loans = models.Count('book_loan')
+        )
+        return result
+
 class CategoryManager(models.Manager):
     ''' Managers para el modelo Categoria '''
 
@@ -34,10 +40,11 @@ class CategoryManager(models.Manager):
         ).distinct() # 'Distinc' le dice a django que no me repita las categorias
 
 
-    # Obtener las categorias de libros y la cantidad de libros que hay en la categoria
+    # Obtener las categorias existentes y vinculadas a los libros,
+    # Es decir, solo retornará las categorias en las cuales halla libros registrados
     def list_category_by_book(self):
         result = self.annotate(
-            num_books = self.count('category_book') # Contando numeros de libro que tiene la categoria
+            num_books = models.Count('category_book') # Contando numeros de libro que tiene la categoria
         )
         return result
 
