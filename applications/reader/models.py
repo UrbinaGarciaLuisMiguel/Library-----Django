@@ -6,10 +6,10 @@ from .managers import LoanManager
 class Reader(models.Model):
     ''' Modelo de Lector '''
 
-    names      = models.CharField(max_length = 50)
-    surnames   = models.CharField(max_length = 50)
-    natinality = models.CharField(max_length = 30)
-    age        = models.PositiveIntegerField(default = 0)
+    names = models.CharField(max_length = 50)
+    surnames = models.CharField(max_length = 50 )
+    nationality = models.CharField(max_length = 30 )
+    age = models.PositiveIntegerField()
 
     def __str__(self):
         return str(self.id) + " - " + self.names + " " + self.surnames

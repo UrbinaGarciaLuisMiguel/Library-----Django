@@ -1,14 +1,34 @@
 from django.db import models
+from django.contrib.postgres.search import TrigramSimilarity
 
 class BookManager(models.Manager):
     ''' Managers para el modelo book'''
 
-    # Obtener los libros que contengas title = kword
+    # # La función list_books es mejorada en la linea 18
+    # # Obtener los libros que contengas title = kword
+    # def list_books(self, kword):
+    #     response = self.filter (
+    #         title__icontains    = kword
+    #     )
+    #     return response
+
+    
     def list_books(self, kword):
-        response = self.filter (
-            title__icontains    = kword
-        )
-        return response
+
+        # Codigo para crear una extensión en postgres desde la shell y poder realizar la busqueda por diagramación
+        # \c db_library
+        # CREATE INDEX book_title_idx ON book_book USING GIN(title gin_trgm_ops);
+        # CREATE EXTENSION pg_trgm;
+
+        if kword:
+            response = self.filter (
+                title__trigram_similar = kword,                
+            )
+            return response
+        else:
+            response = self.all()[:10]
+            return response
+
 
     # Obtener los libros que contengas title = kword y que cumpla um rango de fecha
     def list_books_by_date(self, kword, date_01, date_02):
@@ -29,6 +49,7 @@ class BookManager(models.Manager):
             number_loans = models.Count('book_loan')
         )
         return result
+                         
 
 class CategoryManager(models.Manager):
     ''' Managers para el modelo Categoria '''

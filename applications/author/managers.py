@@ -18,5 +18,5 @@ class AuthorManager(models.Manager):
         # response = self.filter(age__gt = 40, age__lt = 65)
         
         # Consulta de filtrado excluyendo aquellos cuya edad = 70
-        response = self.filter(Q(name__icontains = kword) | Q(surnames__icontains = kword)).exclude(age = 68)
+        response = self.filter(Q(names__icontains = kword) | Q(surnames__icontains = kword)).exclude(age = 68)
         return response

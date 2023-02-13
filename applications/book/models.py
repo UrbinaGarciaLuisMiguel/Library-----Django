@@ -19,7 +19,15 @@ class Book(models.Model):
     release_date = models.DateField('Fecha de Lanzamiento')
     front_page   = models.ImageField(upload_to = 'portada')
     
+    
     objects = BookManager()
     
+    class Meta:
+        verbose_name = 'Libro' # Nombre en el panel de admnistrados de django
+        verbose_name_plural = 'Libros'
+        ordering = ['id']
+        # db_table = 'book' # Nombre de tabla representativa al modelo en la base de datos
+ 
+
     def __str__(self):
         return str(self.id) + " - " + self.title

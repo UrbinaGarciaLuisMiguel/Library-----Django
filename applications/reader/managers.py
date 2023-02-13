@@ -11,5 +11,9 @@ class LoanManager(models.Manager):
     # cantidad de veces prestado cada libro 
     def number_book_borrowed(self):
         # En values colocamos en base a qué queremos que annotate agrupe
-        result = self.values('book').annotate(num_borrowed = models.Count('book'))
+        result = self.values(
+            'book',
+            # 'reader', # Si quisiera saber cuantas veces se a prestado el libro a dicho lector, agruparía tambien por lector (reader)
+        ).annotate(num_borrowed = models.Count('book'), title = models.functions.Lower('book__title'))
         return result
+
